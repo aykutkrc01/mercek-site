@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mercek Enerji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#F4F2FB; --ground2:#ECE8F7; --card:#FFFFFF; --card-t:rgba(255,255,255,.72);
+  --brd:rgba(109,58,240,.14); --brd2:rgba(109,58,240,.09);
+  --ink:#1B1630; --dim:#57506F; --mute:#948DAE;
+  --violet:#6D3AF0; --cyan:#12BCD4; --magenta:#EC3A9A; --amber:#FF9F1C; --plasma:#FF6A3D; --mint:#12C79A;
+  --grid:rgba(27,22,48,.08);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);
+  font-family:"Manrope",-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:"Sora",sans-serif;margin:0;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
+a{color:inherit;text-decoration:none}
+.mono{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+.kap{max-width:1140px;margin:0 auto;padding:0 24px}
+.grad{background:linear-gradient(100deg,var(--violet),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* mesh */
+.mesh{position:absolute;inset:-30% -10% auto -10%;height:900px;z-index:0;pointer-events:none;filter:blur(26px);opacity:.9;
+  background:
+    radial-gradient(30% 40% at 18% 24%,rgba(109,58,240,.24),transparent 62%),
+    radial-gradient(32% 42% at 82% 16%,rgba(236,58,154,.20),transparent 62%),
+    radial-gradient(34% 46% at 70% 70%,rgba(18,188,212,.20),transparent 62%),
+    radial-gradient(30% 40% at 22% 78%,rgba(255,159,28,.16),transparent 62%);
+  background-size:170% 170%;animation:mesh 24s ease-in-out infinite}
+@keyframes mesh{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(244,242,251,.72);border-bottom:1px solid var(--brd2)}
+nav .kap{display:flex;align-items:center;gap:26px;height:64px}
+.logo{font-family:"Sora";font-weight:700;font-size:17px;letter-spacing:.02em;display:flex;align-items:center;gap:9px}
+.logo .lens{width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--violet));
+  box-shadow:0 0 14px rgba(109,58,240,.7)}
+nav .baglar{display:flex;gap:24px;margin-left:12px;font-size:14.5px;color:var(--dim);font-weight:500}
+nav .baglar a:hover{color:var(--ink)}
+nav .sag{margin-left:auto;display:flex;gap:10px;align-items:center}
+.btn{font:600 14.5px "Sora";border-radius:12px;padding:10px 18px;cursor:pointer;border:1px solid transparent;transition:.16s;display:inline-block}
+.btn-yesil{}
+.btn-ciz{border-color:var(--brd);color:var(--ink);background:rgba(255,255,255,.6)}
+.btn-ciz:hover{border-color:var(--violet);color:var(--violet)}
+.btn-dolu{color:#fff;background:linear-gradient(105deg,var(--violet),var(--magenta));box-shadow:0 12px 26px -12px rgba(236,58,154,.5)}
+.btn-dolu:hover{transform:translateY(-1px);box-shadow:0 18px 34px -12px rgba(109,58,240,.55)}
+@media(max-width:760px){nav .baglar{display:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden}
+.hero .kap{position:relative;z-index:2;padding:74px 24px 60px;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.rozet{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--violet);
+  background:rgba(109,58,240,.09);border:1px solid var(--brd);border-radius:999px;padding:6px 13px;margin-bottom:20px}
+.rozet i{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint)}
+.hero h1{font-size:52px;font-weight:800}
+.hero p.spot{font-size:18px;color:var(--dim);margin:20px 0 28px;max-width:34ch}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero .not{font-size:12.5px;color:var(--mute);margin-top:16px}
+@media(max-width:860px){.hero .kap{grid-template-columns:1fr;padding-top:52px}.hero h1{font-size:40px}}
+
+/* kokpit önizleme kartı (3D) */
+.onizleme{position:relative;border-radius:22px;padding:18px;background:linear-gradient(160deg,#fff,var(--card-t));
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 50px 90px -40px rgba(76,40,150,.4),0 16px 34px -18px rgba(109,58,240,.25),0 1px 0 #fff inset;
+  transform:perspective(1200px) rotateY(-9deg) rotateX(5deg);transition:transform .5s ease}
+.onizleme:hover{transform:perspective(1200px) rotateY(-4deg) rotateX(2deg)}
+.oz-ust{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.oz-ust .e{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.oz-dev{font-family:"JetBrains Mono";font-weight:600;font-size:38px;line-height:1;
+  background:linear-gradient(100deg,var(--amber),var(--plasma) 55%,var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+.oz-mini{display:flex;gap:16px;margin:6px 0 12px;font-size:11px;color:var(--mute)}
+.oz-mini b{display:block;font-family:"JetBrains Mono";font-size:13px;color:var(--ink)}
+.oz-cip{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.oz-cip span{font-size:10px;padding:4px 9px;border-radius:999px;background:rgba(109,58,240,.07);border:1px solid var(--brd2);color:var(--dim)}
+
+/* kanıt şeridi */
+.kanit{border-top:1px solid var(--brd2);border-bottom:1px solid var(--brd2);background:rgba(255,255,255,.5)}
+.kanit .kap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:26px 24px}
+.kanit .k u{display:block;font-family:"JetBrains Mono";font-weight:600;font-size:28px;color:var(--violet)}
+.kanit .k small{color:var(--mute);font-size:12.5px}
+@media(max-width:680px){.kanit .kap{grid-template-columns:1fr 1fr;gap:16px}}
+
+/* bölüm başlık */
+section.blok{position:relative;padding:72px 0}
+.blok-bas{text-align:center;max-width:640px;margin:0 auto 44px}
+.blok-bas .et{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:10px}
+.blok-bas h2{font-size:36px;font-weight:700}
+.blok-bas p{color:var(--dim);margin-top:12px;font-size:16.5px}
+
+/* özellikler */
+.ozgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:840px){.ozgrid{grid-template-columns:1fr}}
+.oz{border-radius:20px;padding:24px;background:var(--card);border:1px solid var(--brd2);
+  box-shadow:0 24px 50px -34px rgba(76,40,150,.28);transition:transform .2s,box-shadow .2s}
+.oz:hover{transform:translateY(-4px);box-shadow:0 36px 66px -34px rgba(76,40,150,.4)}
+.oz .ik{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;margin-bottom:16px;
+  background:linear-gradient(140deg,rgba(109,58,240,.12),rgba(236,58,154,.12));border:1px solid var(--brd2)}
+.oz h4{font-size:18px;margin-bottom:7px}
+.oz p{color:var(--dim);font-size:14.5px;margin:0}
+
+/* nasıl çalışır */
+.adimlar{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:a}
+@media(max-width:840px){.adimlar{grid-template-columns:1fr}}
+.adim{position:relative;padding:24px;border-radius:18px;background:rgba(255,255,255,.55);border:1px solid var(--brd2)}
+.adim .no{font-family:"JetBrains Mono";font-weight:600;color:var(--violet);font-size:14px}
+.adim h4{font-size:17px;margin:8px 0 6px}
+.adim p{color:var(--dim);font-size:14px;margin:0}
+
+/* fiyat */
+.fiyatlar{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+@media(max-width:860px){.fiyatlar{grid-template-columns:1fr}}
+.paket{position:relative;display:flex;flex-direction:column;border-radius:22px;padding:28px 24px;background:var(--card);
+  border:1px solid var(--brd2);box-shadow:0 24px 54px -36px rgba(76,40,150,.3)}
+.paket.pop{border:1.5px solid transparent;background:
+    linear-gradient(#fff,#fff) padding-box,
+    linear-gradient(135deg,var(--violet),var(--magenta)) border-box;
+  transform:translateY(-8px);box-shadow:0 44px 80px -34px rgba(109,58,240,.42)}
+.paket .etiket{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font:600 11px "Sora";letter-spacing:.06em;
+  color:#fff;background:linear-gradient(105deg,var(--violet),var(--magenta));padding:5px 14px;border-radius:999px}
+.paket h3{font-size:19px}
+.paket .fiy{margin:14px 0 4px;font-family:"JetBrains Mono";font-weight:600;font-size:34px}
+.paket .fiy small{font-family:"Manrope";font-size:14px;color:var(--mute);font-weight:500}
+.paket .aciklama{color:var(--mute);font-size:13px;margin-bottom:18px}
+.paket ul{list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.paket li{display:flex;gap:10px;font-size:14px;color:var(--dim)}
+.paket li b{color:var(--ink);font-weight:600}
+.tik{color:var(--mint);flex-shrink:0;font-weight:700}
+.paket .btn{width:100%;text-align:center}
+.teklif-band{margin-top:28px;text-align:center}
+.teklif-band .btn{padding:15px 34px;font-size:16px}
+.teklif-band p{color:var(--mute);font-size:13px;margin-top:10px}
+
+/* alt cta + footer */
+.altcta{margin:0 24px;border-radius:26px;padding:52px 32px;text-align:center;color:#fff;
+  background:linear-gradient(120deg,var(--violet),var(--magenta));box-shadow:0 40px 80px -34px rgba(109,58,240,.5)}
+.altcta h2{font-size:32px;color:#fff}
+.altcta p{opacity:.9;margin:12px auto 24px;max-width:44ch}
+.altcta .btn{background:#fff;color:var(--violet)}
+footer{padding:40px 0;color:var(--mute);font-size:13.5px}
+footer .kap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:80;display:none;place-items:center;padding:24px;
+  background:rgba(30,20,60,.42);backdrop-filter:blur(6px)}
+.modal.acik{display:grid}
+.mkart{width:100%;max-width:396px;border-radius:24px;padding:30px 30px 26px;background:#fff;
+  border:1px solid rgba(255,255,255,.9);box-shadow:0 50px 100px -30px rgba(40,20,90,.5);
+  transform:perspective(1000px) rotateX(3deg);animation:pop .35s ease}
+@keyframes pop{from{opacity:0;transform:perspective(1000px) rotateX(3deg) translateY(14px)}to{opacity:1}}
+.mkart .kapat{float:right;border:0;background:none;font-size:20px;color:var(--mute);cursor:pointer;line-height:1}
+.sekmeler{display:flex;gap:4px;padding:4px;background:var(--ground2);border-radius:12px;margin:6px 0 20px}
+.sekmeler button{flex:1;border:0;background:none;cursor:pointer;font:600 13.5px "Sora";color:var(--dim);padding:9px;border-radius:9px}
+.sekmeler button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px -3px rgba(0,0,0,.15)}
+.saha{position:relative;margin-bottom:11px}
+.saha label{position:absolute;left:14px;top:12px;font-size:13px;color:var(--mute);pointer-events:none;transition:.16s}
+.saha input{width:100%;padding:22px 14px 8px;border-radius:12px;border:1px solid var(--brd2);background:#fbfaff;
+  color:var(--ink);font:500 15px "Manrope";outline:none;transition:.16s}
+.saha input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(109,58,240,.12)}
+.saha input:focus+label,.saha input:not(:placeholder-shown)+label{top:6px;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim)}
+.msub{width:100%;margin-top:8px;padding:13px;border:0;border-radius:12px;color:#fff;font:600 15px "Sora";cursor:pointer;
+  background:linear-gradient(105deg,var(--violet),var(--magenta));box-shadow:0 14px 30px -12px rgba(236,58,154,.5)}
+.msub:hover{transform:translateY(-1px)}
+.malt{text-align:center;font-size:12.5px;color:var(--mute);margin-top:14px}
+.malt a{color:var(--violet);font-weight:600;cursor:pointer}
+.mok{display:none;margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(18,199,154,.12);
+  border:1px solid rgba(18,199,154,.3);color:#0C7C5E;font-size:13px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}
+  .onizleme,.paket.pop,.mkart{transform:none!important}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="kap">
+    <div class="logo"><span class="lens"></span>Mercek</div>
+    <div class="baglar">
+      <a href="#urun">Ürün</a><a href="#ozellik">Özellikler</a>
+      <a href="#nasil">Nasıl çalışır</a><a href="#fiyat">Ücretlendirme</a>
+    </div>
+    <div class="sag">
+      <button class="btn btn-ciz" onclick="modal('giris')">Giriş</button>
+      <button class="btn btn-dolu" onclick="modal('kayit')">Ücretsiz dene</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="urun">
+  <div class="mesh"></div>
+  <div class="kap">
+    <div>
+      <span class="rozet"><i></i>Türkiye elektrik piyasası · gün öncesi</span>
+      <h1>Elektrik fiyatını <span class="grad">yarından</span> gör.</h1>
+      <p class="spot">Mercek; merit-order fizik motoru, çöküş kalibrasyonu ve uzman yorumunu tek kokpitte birleştirip yarının saatlik PTF'sini üretir.</p>
+      <div class="cta">
+        <button class="btn btn-dolu" onclick="modal('kayit')">Ücretsiz dene</button>
+        <a class="btn btn-ciz" href="#fiyat">Teklif al</a>
+      </div>
+      <div class="not">Kredi kartı gerekmez · KVKK uyumlu · kendi sunucunuzda kurulum seçeneği</div>
+    </div>
+    <div class="onizleme">
+      <div class="oz-ust"><span class="e">Yarının tahmini · 9 Eylül</span><span class="e">TL/MWh</span></div>
+      <div class="oz-dev">3.449</div>
+      <div class="oz-mini"><div>Gündüz<b>3.848</b></div><div>En düşük<b>2.800</b></div><div>En yüksek<b>3.957</b></div></div>
+      <svg viewBox="0 0 420 96" style="width:100%;height:auto;display:block">
+        <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#12C79A"/><stop offset=".5" stop-color="#FF9F1C"/><stop offset="1" stop-color="#EC3A9A"/></linearGradient>
+        <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,130,80,.28)"/><stop offset="1" stop-color="rgba(255,130,80,0)"/></linearGradient></defs>
+        <path d="M6 66 L6 66 63 66 74 30 130 24 187 24 210 20 244 34 250 66 Z" fill="url(#gf)"/>
+        <path d="M6 66 L63 66 74 30 130 24 187 24 210 20 244 34 250 34 300 22 360 22 414 66" fill="none" stroke="url(#g)" stroke-width="2.6" stroke-linejoin="round"/>
+        <circle cx="414" cy="66" r="4" fill="#EC3A9A"/>
+      </svg>
+      <div class="oz-cip"><span>merit-order</span><span>çöküş katmanı</span><span>uzman yorumu · İlker</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- KANIT -->
+<div class="kanit"><div class="kap">
+  <div class="k"><u>660</u><small>TL/MWh ortalama sapma (MAE)</small></div>
+  <div class="k"><u>18.360</u><small>saat geriye backtest</small></div>
+  <div class="k"><u>%58</u><small>±500 TL bandında isabet</small></div>
+  <div class="k"><u>24s</u><small>ileri saatlik tahmin</small></div>
+</div></div>
+
+<!-- ÖZELLİKLER -->
+<section class="blok" id="ozellik"><div class="kap">
+  <div class="blok-bas"><div class="et">Ne yapar</div>
+    <h2>Fiyatı tahmin etmez — <span class="grad">açıklar.</span></h2>
+    <p>Kara kutu değil. Her saatin fiyatını hangi santralin, hangi yakıtın belirlediğini görürsünüz.</p></div>
+  <div class="ozgrid">
+    <div class="oz"><div class="ik">⚡</div><h4>Merit-order fizik motoru</h4><p>Talep, gerçek emre amade kapasite (EAK) ve yakıt maliyetleriyle marjinal santral hesaplanır; PTF fizikten çıkar.</p></div>
+    <div class="oz"><div class="ik">☀️</div><h4>Çöküş kalibrasyonu</h4><p>Yenilenebilir bolluğunda fiyatın dibe vurduğu saatleri ampirik katman yakalar — "güneş bastı, fiyat sıfır".</p></div>
+    <div class="oz"><div class="ik">🧭</div><h4>Uzman yorum katmanı</h4><p>İlker'in sezgisi kurala dönüşür: taban/tavan/çarpan. Modelin köründe kaldığı yeri insan doldurur.</p></div>
+    <div class="oz"><div class="ik">📊</div><h4>Canlı kokpit</h4><p>Yarının eğrisi, model doğruluğu, baraj doluluğu, maliyet merdiveni — tek ekranda, her sabah otomatik.</p></div>
+    <div class="oz"><div class="ik">🔒</div><h4>KVKK & kendi sunucun</h4><p>Veri Türkiye'de kalır. Postgres'e tek adımda geçiş; kendi sunucunuzda kurulum seçeneği.</p></div>
+    <div class="oz"><div class="ik">🔌</div><h4>API & entegrasyon</h4><p>Tahminleri kendi sistemlerinize taşıyın; tüketim profili maliyet analizini otomatikleştirin.</p></div>
+  </div>
+</div></section>
+
+<!-- NASIL ÇALIŞIR -->
+<section class="blok" id="nasil" style="background:rgba(255,255,255,.4)"><div class="kap">
+  <div class="blok-bas"><div class="et">Nasıl çalışır</div><h2>Veriden karara üç adım</h2></div>
+  <div class="adimlar">
+    <div class="adim"><div class="no">01</div><h4>Veri her sabah akar</h4><p>EPİAŞ, TCMB, EAK ve baraj verisi otomatik çekilir; tablolar ve kalibrasyon tazelenir.</p></div>
+    <div class="adim"><div class="no">02</div><h4>Motor + yorum</h4><p>Merit-order fiziği çöküş katmanı ve uzman kurallarıyla yarının 24 saatini üretir.</p></div>
+    <div class="adim"><div class="no">03</div><h4>Kokpitte karar</h4><p>Tahmin, doğruluk ve maliyet merdiveni önünüzde; fiyat verirken tereddüt etmezsiniz.</p></div>
+  </div>
+</div></section>
+
+<!-- ÜCRETLENDİRME -->
+<section class="blok" id="fiyat"><div class="kap">
+  <div class="blok-bas"><div class="et">Ücretlendirme</div>
+    <h2>Ölçeğinize göre <span class="grad">üç paket</span></h2>
+    <p>İhtiyacınıza ve kullanım ölçeğinize göre paketliyoruz. Size uygun teklifi birlikte belirleyelim.</p></div>
+  <div class="fiyatlar">
+    <div class="paket">
+      <h3>Başlangıç</h3>
+      <div class="aciklama">Küçük tedarikçi ve serbest tüketiciler için.</div>
+      <ul>
+        <li><span class="tik">✓</span>Günlük <b>saatlik PTF tahmini</b></li>
+        <li><span class="tik">✓</span>Canlı kokpit paneli</li>
+        <li><span class="tik">✓</span>Maliyet merdiveni (merit-order)</li>
+        <li><span class="tik">✓</span>Baraj & EAK göstergeleri</li>
+        <li><span class="tik">✓</span>1 kullanıcı</li>
+      </ul>
+      <button class="btn btn-ciz" onclick="modal('kayit')">Teklif al</button>
+    </div>
+    <div class="paket pop">
+      <div class="etiket">EN POPÜLER</div>
+      <h3>Profesyonel</h3>
+      <div class="aciklama">Portföy yöneten ticaret ekipleri için.</div>
+      <ul>
+        <li><span class="tik">✓</span><b>Başlangıç'taki her şey</b></li>
+        <li><span class="tik">✓</span>Uzman yorum katmanı + kural editörü</li>
+        <li><span class="tik">✓</span>Backtest & model doğruluğu</li>
+        <li><span class="tik">✓</span>Tüketim profili maliyet analizi</li>
+        <li><span class="tik">✓</span>API erişimi</li>
+        <li><span class="tik">✓</span>5 kullanıcı</li>
+      </ul>
+      <button class="btn btn-dolu" onclick="modal('kayit')">Teklif al</button>
+    </div>
+    <div class="paket">
+      <h3>Kurumsal</h3>
+      <div class="aciklama">Dağıtım şirketleri ve büyük tedarikçiler için.</div>
+      <ul>
+        <li><span class="tik">✓</span><b>Profesyonel'deki her şey</b></li>
+        <li><span class="tik">✓</span>Kendi sunucunuzda kurulum (KVKK)</li>
+        <li><span class="tik">✓</span>Özel model kalibrasyonu</li>
+        <li><span class="tik">✓</span>Öncelikli destek & SLA</li>
+        <li><span class="tik">✓</span>Sınırsız kullanıcı & entegrasyon</li>
+      </ul>
+      <button class="btn btn-ciz" onclick="modal('kayit')">Teklif al</button>
+    </div>
+  </div>
+  <div class="teklif-band">
+    <button class="btn btn-dolu" onclick="modal('kayit')">Teklif al</button>
+    <p>Size uygun paketi birlikte belirleyelim · 15 dakikalık demo</p>
+  </div>
+</div></section>
+
+<!-- ALT CTA -->
+<section class="blok" style="padding-top:0">
+  <div class="altcta">
+    <h2>APLUS'ın göremediğini görün.</h2>
+    <p>Merit-order fiziği + İlker'in yorumu. İki ay ücretsiz deneyin, farkı kendiniz ölçün.</p>
+    <button class="btn" onclick="modal('kayit')">Ücretsiz dene</button>
+  </div>
+</section>
+
+<footer><div class="kap">
+  <div class="logo"><span class="lens"></span>Mercek</div>
+  <div>Elektrik fiyat tahmin kokpiti · © 2026 · KVKK uyumlu</div>
+</div></footer>
+
+<!-- MODAL: GİRİŞ / KAYIT -->
+<div class="modal" id="modal">
+  <div class="mkart">
+    <button class="kapat" onclick="modalKapat()" aria-label="Kapat">×</button>
+    <div class="logo" style="font-size:16px"><span class="lens"></span>Mercek</div>
+    <div class="sekmeler">
+      <button id="s-giris" aria-pressed="true" onclick="sekme('giris')">Giriş</button>
+      <button id="s-kayit" aria-pressed="false" onclick="sekme('kayit')">Kayıt ol</button>
+    </div>
+    <form id="form-giris" onsubmit="return gonder(event,'Giriş yapıldı — kokpite yönlendiriliyorsunuz.')">
+      <div class="saha"><input id="g-kadi" placeholder=" " value="ilker"><label>Kullanıcı adı veya e-posta</label></div>
+      <div class="saha"><input type="password" placeholder=" "><label>Şifre</label></div>
+      <button class="msub" type="submit">Giriş yap</button>
+      <div class="malt"><a>Şifremi unuttum</a></div>
+    </form>
+    <form id="form-kayit" hidden onsubmit="return gonder(event,'Hesabınız oluşturuldu — 2 ay ücretsiz deneme başladı.')">
+      <div class="saha"><input placeholder=" "><label>Ad Soyad</label></div>
+      <div class="saha"><input placeholder=" "><label>Firma</label></div>
+      <div class="saha"><input type="email" placeholder=" "><label>E-posta</label></div>
+      <div class="saha"><input type="password" placeholder=" "><label>Şifre</label></div>
+      <button class="msub" type="submit">Hesap oluştur</button>
+      <div class="malt">Kaydolarak <a>KVKK aydınlatma metnini</a> kabul edersiniz.</div>
+    </form>
+    <div class="mok" id="mok"></div>
+  </div>
+</div>
+
+<script>
+function modal(hangi){document.getElementById("modal").classList.add("acik");sekme(hangi);document.getElementById("mok").style.display="none";}
+function modalKapat(){document.getElementById("modal").classList.remove("acik");}
+function sekme(hangi){
+  const g=hangi==="giris";
+  document.getElementById("s-giris").setAttribute("aria-pressed",g);
+  document.getElementById("s-kayit").setAttribute("aria-pressed",!g);
+  document.getElementById("form-giris").hidden=!g;
+  document.getElementById("form-kayit").hidden=g;
+  document.getElementById("mok").style.display="none";
+}
+function gonder(e,mesaj){e.preventDefault();const m=document.getElementById("mok");m.textContent=mesaj;m.style.display="block";return false;}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")modalKapat();});
+addEventListener("keydown",e=>{if(e.key==="Escape")modalKapat();});
+</script>
+</body>
+</html>
