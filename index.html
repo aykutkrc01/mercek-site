@@ -330,13 +330,13 @@ footer .kap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;a
       <button id="s-giris" aria-pressed="true" onclick="sekme('giris')">Giriş</button>
       <button id="s-kayit" aria-pressed="false" onclick="sekme('kayit')">Kayıt ol</button>
     </div>
-    <form id="form-giris" onsubmit="return gonder(event,'Giriş yapıldı — kokpite yönlendiriliyorsunuz.')">
+    <form id="form-giris" onsubmit="return gonder(event,'Giriş yapıldı — kokpite yönlendiriliyorsunuz.','kokpit.html')">
       <div class="saha"><input id="g-kadi" placeholder=" " value="ilker"><label>Kullanıcı adı veya e-posta</label></div>
       <div class="saha"><input type="password" placeholder=" "><label>Şifre</label></div>
       <button class="msub" type="submit">Giriş yap</button>
       <div class="malt"><a>Şifremi unuttum</a></div>
     </form>
-    <form id="form-kayit" hidden onsubmit="return gonder(event,'Hesabınız oluşturuldu — 2 ay ücretsiz deneme başladı.')">
+    <form id="form-kayit" hidden onsubmit="return gonder(event,'Hesabınız oluşturuldu — kokpite yönlendiriliyorsunuz.','kokpit.html')">
       <div class="saha"><input placeholder=" "><label>Ad Soyad</label></div>
       <div class="saha"><input placeholder=" "><label>Firma</label></div>
       <div class="saha"><input type="email" placeholder=" "><label>E-posta</label></div>
@@ -359,7 +359,7 @@ function sekme(hangi){
   document.getElementById("form-kayit").hidden=g;
   document.getElementById("mok").style.display="none";
 }
-function gonder(e,mesaj){e.preventDefault();const m=document.getElementById("mok");m.textContent=mesaj;m.style.display="block";return false;}
+function gonder(e,mesaj,git){e.preventDefault();const m=document.getElementById("mok");m.textContent=mesaj;m.style.display="block";if(git)setTimeout(function(){location.href=git;},950);return false;}
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")modalKapat();});
 addEventListener("keydown",e=>{if(e.key==="Escape")modalKapat();});
 </script>
